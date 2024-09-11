@@ -1,2 +1,2 @@
-# g4_shield_model
+# G4 Shield Model
 Model of shielded CsI detector 
