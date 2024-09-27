@@ -71,6 +71,10 @@ void B1SteppingAction::UserSteppingAction(const G4Step* step)
   // collect energy deposited in this step
   G4double edepStep = step->GetTotalEnergyDeposit();
   fEventAction->AddEdep(edepStep);  
+
+   // collect track traveled in this step
+  G4double stepLength  = step->GetStepLength();
+  fEventAction->AddLtvl(stepLength);   
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

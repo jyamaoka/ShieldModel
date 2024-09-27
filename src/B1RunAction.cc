@@ -39,6 +39,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
+#include "g4root.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -63,6 +64,23 @@ B1RunAction::B1RunAction()
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->RegisterAccumulable(fEdep);
   accumulableManager->RegisterAccumulable(fEdep2); 
+
+  // Create analysis manager
+  // The choice of analysis technology is done via selectin of a namespace
+  // in g4root.hh
+  auto analysisManager = G4AnalysisManager::Instance();
+  G4cout << "Using " << analysisManager->GetType() << G4endl;
+  
+  // Configure analysis manager
+  analysisManager->SetVerboseLevel(1);
+  analysisManager->SetNtupleMerging(true);
+
+  // Creating ntuple
+  //
+  analysisManager->CreateNtuple("ShieldModel", "Edep and TrackL");
+  analysisManager->CreateNtupleDColumn("Edet");
+  analysisManager->CreateNtupleDColumn("Ldet");
+  analysisManager->FinishNtuple();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -81,6 +99,13 @@ void B1RunAction::BeginOfRunAction(const G4Run*)
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Reset();
 
+  // Get analysis manager
+  auto analysisManager = G4AnalysisManager::Instance();
+
+  // Open an output file
+  //
+  G4String fileName = "shieldmodel";
+  analysisManager->OpenFile(fileName);  
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -94,6 +119,8 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
   // Merge accumulables 
   G4AccumulableManager* accumulableManager = G4AccumulableManager::Instance();
   accumulableManager->Merge();
+
+  auto analysisManager = G4AnalysisManager::Instance();
 
   // Compute dose = total energy deposit in a run and its variance
   //
@@ -158,6 +185,11 @@ void B1RunAction::EndOfRunAction(const G4Run* run)
      << "------------------------------------------------------------"
      << G4endl
      << G4endl;
+
+  // save histograms & ntuple
+  //
+  analysisManager->Write();
+  analysisManager->CloseFile();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
