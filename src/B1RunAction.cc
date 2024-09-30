@@ -39,7 +39,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
-#include "g4root.hh"
+#include "B1Analysis.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -67,7 +67,7 @@ B1RunAction::B1RunAction()
 
   // Create analysis manager
   // The choice of analysis technology is done via selectin of a namespace
-  // in g4root.hh
+  // in B1Analysis.hh
   auto analysisManager = G4AnalysisManager::Instance();
   G4cout << "Using " << analysisManager->GetType() << G4endl;
   
