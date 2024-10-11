@@ -66,13 +66,12 @@ void B1EventAction::EndOfEventAction(const G4Event* event)
   auto analysisManager = G4AnalysisManager::Instance();
   
   // fill ntuple
-  analysisManager->FillNtupleDColumn(0, fEdep*10000.);
-  analysisManager->FillNtupleDColumn(1, fLtvl*10000.);
-  analysisManager->AddNtupleRow();  
-  
   if (fEdep>0.0){
-    G4cout<<"  test " << G4BestUnit(fEdep,"Energy") << G4endl;
+    analysisManager->FillNtupleDColumn(0, fEdep);
+    analysisManager->FillNtupleDColumn(1, fLtvl);
+    analysisManager->AddNtupleRow();  
   }
+  
   // Print per event (modulo n)
   //
   auto eventID = event->GetEventID();

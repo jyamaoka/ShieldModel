@@ -62,17 +62,22 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   
   // Fridge parameters simplified
   //
-  G4double frg_sizeXY   = 100*mm,
+  G4double frg_sizeXY   = 200*mm,
            frgAl0_sizeZ = 3.2*mm,
            frgAl1_sizeZ = 4*mm,
            frgAl2_sizeZ = 3*mm,
            frgBr0_sizeZ = 3*mm,
            frgBr1_sizeZ = 2*mm,
-           frgCu0_sizeZ = 5*mm;
+           frgCu0_sizeZ = 5*mm,
+           tt_sizeX     = 190*mm,
+           tt_sizeY     = 242*mm,
+           ttAl_sizeZ   = 3.1*mm,
+           ttCu_sizeZ   = 3.2*mm;
 
   G4Material* al_mat = nist->FindOrBuildMaterial("G4_Al");
   G4Material* br_mat = nist->FindOrBuildMaterial("G4_BRASS");
   G4Material* cu_mat = nist->FindOrBuildMaterial("G4_Cu");
+  G4Material* pb_mat = nist->FindOrBuildMaterial("G4_Pb");
 
   // Dector Vol
   //
@@ -89,7 +94,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   // World
   //
   G4double world_sizeXY = frg_sizeXY;
-  G4double world_sizeZ  = 250*mm;
+  G4double world_sizeZ  = 350*mm;
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
   G4double localZero = -170*mm;
 
@@ -118,78 +123,83 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   //  
   
   // AL 0
-  G4ThreeVector pos0 = G4ThreeVector(0, 0, (0+localZero)*mm);
-  
-  G4Box* solidShape0 =    
-    new G4Box("Al0", 
-              frg_sizeXY,
-              frg_sizeXY,
-              frgAl0_sizeZ);
-                      
-  G4LogicalVolume* logicShape0 =                         
-    new G4LogicalVolume(solidShape0,         //its solid
-                        al_mat,              //its material
-                        "Al0");              //its name
-               
-  new G4PVPlacement(0,                       //no rotation
-                    pos0,                    //at position
-                    logicShape0,             //its logical volume
-                    "Al0",                   //its name
-                    logicWorld,                       //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
+  if (1){
+     G4ThreeVector pos0 = G4ThreeVector(0, 0, (0.*mm + localZero));
+     
+     G4Box* solidShape0 =    
+       new G4Box("Al0", 
+                 frg_sizeXY,
+                 frg_sizeXY,
+                 frgAl0_sizeZ);
+                         
+     G4LogicalVolume* logicShape0 =                         
+       new G4LogicalVolume(solidShape0,         //its solid
+                           al_mat,              //its material
+                           "Al0");              //its name
+                  
+     new G4PVPlacement(0,                       //no rotation
+                       pos0,                    //at position
+                       logicShape0,             //its logical volume
+                       "Al0",                   //its name
+                       logicWorld,                       //its mother  volume
+                       false,                   //no boolean operation
+                       0,                       //copy number
+                       checkOverlaps);          //overlaps checking
+  }
 
   // AL 1
-  G4ThreeVector pos1 = G4ThreeVector(0, 0, (20.2+localZero)*mm);
-  
-  G4Box* solidShape1 =    
-    new G4Box("Al1", 
-              frg_sizeXY,
-              frg_sizeXY,
-              frgAl1_sizeZ);
-                      
-  G4LogicalVolume* logicShape1 =                         
-    new G4LogicalVolume(solidShape1,         //its solid
-                        al_mat,              //its material
-                        "Al1");              //its name
-               
-  new G4PVPlacement(0,                       //no rotation
-                    pos1,                    //at position
-                    logicShape1,             //its logical volume
-                    "Al1",                   //its name
-                    logicWorld,                       //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
-
+  if (1){
+     G4ThreeVector pos1 = G4ThreeVector(0, 0, (20.2*mm + localZero));
+     
+     G4Box* solidShape1 =    
+       new G4Box("Al1", 
+                 frg_sizeXY,
+                 frg_sizeXY,
+                 frgAl1_sizeZ);
+                         
+     G4LogicalVolume* logicShape1 =                         
+       new G4LogicalVolume(solidShape1,         //its solid
+                           al_mat,              //its material
+                           "Al1");              //its name
+                  
+     new G4PVPlacement(0,                       //no rotation
+                       pos1,                    //at position
+                       logicShape1,             //its logical volume
+                       "Al1",                   //its name
+                       logicWorld,                       //its mother  volume
+                       false,                   //no boolean operation
+                       0,                       //copy number
+                       checkOverlaps);          //overlaps checking
+  }
 
   // AL 2
-  G4ThreeVector pos2 = G4ThreeVector(0, 0, (46.2+localZero)*mm);
-  
-  G4Box* solidShape2 =    
-    new G4Box("Al2", 
-              frg_sizeXY,
-              frg_sizeXY,
-              frgAl2_sizeZ);
-                      
-  G4LogicalVolume* logicShape2 =                         
-    new G4LogicalVolume(solidShape2,         //its solid
-                        al_mat,              //its material
-                        "Al2");              //its name
-               
-  new G4PVPlacement(0,                       //no rotation
-                    pos2,                    //at position
-                    logicShape2,             //its logical volume
-                    "Al2",                   //its name
-                    logicWorld,                       //its mother  volume
-                    false,                   //no boolean operation
-                    0,                       //copy number
-                    checkOverlaps);          //overlaps checking
+  if (1){
+     G4ThreeVector pos2 = G4ThreeVector(0, 0, (46.2*mm + localZero));
+     
+     G4Box* solidShape2 =    
+       new G4Box("Al2", 
+                 frg_sizeXY,
+                 frg_sizeXY,
+                 frgAl2_sizeZ);
+                         
+     G4LogicalVolume* logicShape2 =                         
+       new G4LogicalVolume(solidShape2,         //its solid
+                           al_mat,              //its material
+                           "Al2");              //its name
+                  
+     new G4PVPlacement(0,                       //no rotation
+                       pos2,                    //at position
+                       logicShape2,             //its logical volume
+                       "Al2",                   //its name
+                       logicWorld,                       //its mother  volume
+                       false,                   //no boolean operation
+                       0,                       //copy number
+                       checkOverlaps);          //overlaps checking
+  }
 
   // BRASS 0
-  if (0){
-     G4ThreeVector pos3 = G4ThreeVector(0, 0, (61.2+localZero)*mm);
+  if (1){
+     G4ThreeVector pos3 = G4ThreeVector(0, 0, (61.2*mm + localZero));
      
      G4Box* solidShape3 =    
        new G4Box("Br0", 
@@ -214,7 +224,7 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
 
   // BRASS 1
   if (0){
-     G4ThreeVector pos4 = G4ThreeVector(0, 0, (77.7+localZero)*mm);
+     G4ThreeVector pos4 = G4ThreeVector(0, 0, (77.7*mm + localZero));
      
      G4Box* solidShape4 =    
        new G4Box("Br1", 
@@ -238,8 +248,8 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
   }
  
   // Cu 0
-  if (1){
-     G4ThreeVector pos5 = G4ThreeVector(0, 0, (77.7+2.0+localZero)*mm);
+  if (0){
+     G4ThreeVector pos5 = G4ThreeVector(0, 0, (77.7*mm + 2.0*mm + localZero));
      
      G4Box* solidShape5 =    
        new G4Box("Cu0", 
@@ -262,25 +272,80 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
                        checkOverlaps);          //overlaps checking
   }
   
+  //
+  // Tabletop exp
+  // AL 
+  if (0){
+     G4ThreeVector pos = G4ThreeVector( tt_sizeX/2., 0, (17.0*cm + localZero));
+
+     G4Box* solidShape =    
+       new G4Box("Al", 
+                 tt_sizeX/2.,
+                 tt_sizeY/2.,
+                 ttCu_sizeZ/2.);
+                         
+     G4LogicalVolume* logicShape =                         
+       new G4LogicalVolume(solidShape,         //its solid
+                           cu_mat,              //its material
+                           "Al");              //its name
+                  
+     new G4PVPlacement(0,                       //no rotation
+                       pos,                    //at position
+                       logicShape,             //its logical volume
+                       "Al",                   //its name
+                       logicWorld,                       //its mother  volume
+                       false,                   //no boolean operation
+                       0,                       //copy number
+                       checkOverlaps);          //overlaps checking
+  }
+
+  if (0){ // compton block
+     G4double block_sizeX   = 10*cm,
+              block_sizeY   = 20*cm,
+              block_sizeZ   = 10*cm;
+
+     G4ThreeVector posBlock = G4ThreeVector( block_sizeX/2., 0, (-70.0*mm + localZero));
+
+     G4Box* solidShapeBlock =    
+       new G4Box("PbBlock", 
+                 block_sizeX/2.,
+                 block_sizeY/2.,
+                 block_sizeZ/2.);
+                         
+     G4LogicalVolume* logicShapeBlock =                         
+       new G4LogicalVolume(solidShapeBlock,     //its solid
+                           pb_mat,              //its material
+                           "Pb");               //its name
+                  
+     new G4PVPlacement(0,                       //no rotation
+                       posBlock,                //at position
+                       logicShapeBlock,         //its logical volume
+                       "Pb",                    //its name
+                       logicWorld,              //its mother  volume
+                       false,                   //no boolean operation
+                       0,                       //copy number
+                       checkOverlaps);          //overlaps checking
+  }
   // CsI Det
-  G4ThreeVector pos6 = G4ThreeVector(0, 0, (218.9+localZero)*mm);
-  
+  //G4ThreeVector pos6 = G4ThreeVector( csi_sizeXY/2., 0, (20.0*cm + localZero));
+  G4ThreeVector pos6 = G4ThreeVector( 0, 0, (218*mm + localZero));
+
   G4Box* solidShape6 =    
     new G4Box("Csi", 
-              csi_sizeXY,
-              csi_sizeXY,
-              csi_sizeZ);
+              csi_sizeXY/2.,
+              csi_sizeXY/2.,
+              csi_sizeZ/2.);
                       
   G4LogicalVolume* logicShape6 =                         
     new G4LogicalVolume(solidShape6,         //its solid
-                        csi_mat,              //its material
+                        csi_mat,             //its material
                         "Csi");              //its name
                
   new G4PVPlacement(0,                       //no rotation
                     pos6,                    //at position
                     logicShape6,             //its logical volume
                     "Csi",                   //its name
-                    logicWorld,                       //its mother  volume
+                    logicWorld,              //its mother  volume
                     false,                   //no boolean operation
                     0,                       //copy number
                     checkOverlaps);          //overlaps checking
