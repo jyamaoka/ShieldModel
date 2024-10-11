@@ -44,11 +44,7 @@ target_link_libraries(qbitsimp ${Geant4_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(QBITSIMP_SCRIPTS
-  qbitsimp.in
-  qbitsimp.out
   init_vis.mac
-  run1.mac
-  run2.mac
   cs137.mac
   vis.mac
   )

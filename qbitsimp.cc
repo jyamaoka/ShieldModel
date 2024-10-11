@@ -62,7 +62,7 @@ int main(int argc,char** argv)
     G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
 
   //runManager->SetNumberOfThreads((G4Threading::G4GetNumberOfCores()));
-  runManager->SetNumberOfThreads(20);
+  runManager->SetNumberOfThreads(40);
 
   // Set mandatory initialization classes
   //
