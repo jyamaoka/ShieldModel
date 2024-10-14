@@ -24,36 +24,24 @@
 // ********************************************************************
 //
 //
-/// \file B1EventAction.hh
-/// \brief Definition of the B1EventAction class
+/// \file ShieldModelActionInitialization.hh
+/// \brief Definition of the ShieldModelActionInitialization class
 
-#ifndef B1EventAction_h
-#define B1EventAction_h 1
+#ifndef ShieldModelActionInitialization_h
+#define ShieldModelActionInitialization_h 1
 
-#include "G4UserEventAction.hh"
-#include "globals.hh"
+#include "G4VUserActionInitialization.hh"
 
-class B1RunAction;
+/// Action initialization class.
 
-/// Event action class
-///
-
-class B1EventAction : public G4UserEventAction
+class ShieldModelActionInitialization : public G4VUserActionInitialization
 {
   public:
-    B1EventAction(B1RunAction* runAction);
-    virtual ~B1EventAction();
+    ShieldModelActionInitialization();
+    virtual ~ShieldModelActionInitialization();
 
-    virtual void BeginOfEventAction(const G4Event* event);
-    virtual void EndOfEventAction(const G4Event* event);
-
-    void AddEdep(G4double edep) { fEdep += edep; }
-    void AddLtvl(G4double ltvl) { fLtvl += ltvl; }
-
-  private:
-    B1RunAction* fRunAction;
-    G4double     fEdep;
-    G4double     fLtvl;    
+    virtual void BuildForMaster() const;
+    virtual void Build() const;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -1,5 +1,5 @@
-#ifndef B1Analysis_h
-#define B1Analysis_h 1
+#ifndef ShieldModelAnalysis_h
+#define ShieldModelAnalysis_h 1
 
 #include "g4root.hh"
 //#include "g4csv.hh"

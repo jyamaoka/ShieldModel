@@ -24,35 +24,40 @@
 // ********************************************************************
 //
 //
-/// \file B1DetectorConstruction.hh
-/// \brief Definition of the B1DetectorConstruction class
+/// \file ShieldModelRunAction.hh
+/// \brief Definition of the ShieldModelRunAction class
 
-#ifndef B1DetectorConstruction_h
-#define B1DetectorConstruction_h 1
+#ifndef ShieldModelRunAction_h
+#define ShieldModelRunAction_h 1
 
-#include "G4VUserDetectorConstruction.hh"
+#include "G4UserRunAction.hh"
+#include "G4Accumulable.hh"
 #include "globals.hh"
 
-class G4VPhysicalVolume;
-class G4LogicalVolume;
+class G4Run;
 
-/// Detector construction class to define materials and geometry.
+/// Run action class
+///
+/// In EndOfRunAction(), it calculates the dose in the selected volume 
+/// from the energy deposit accumulated via stepping and event actions.
+/// The computed dose is then printed on the screen.
 
-class B1DetectorConstruction : public G4VUserDetectorConstruction
+class ShieldModelRunAction : public G4UserRunAction
 {
   public:
-    B1DetectorConstruction();
-    virtual ~B1DetectorConstruction();
+    ShieldModelRunAction();
+    virtual ~ShieldModelRunAction();
 
-    virtual G4VPhysicalVolume* Construct();
-    
-    G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
+    // virtual G4Run* GenerateRun();
+    virtual void BeginOfRunAction(const G4Run*);
+    virtual void   EndOfRunAction(const G4Run*);
 
-  protected:
-    G4LogicalVolume*  fScoringVolume;
+    void AddEdep (G4double edep); 
+
+  private:
+    G4Accumulable<G4double> fEdep;
+    G4Accumulable<G4double> fEdep2;
 };
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
 

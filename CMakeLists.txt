@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.8...3.18)
 if(${CMAKE_VERSION} VERSION_LESS 3.12)
   cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
-project(B1)
+project(SHIELDMODEL)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -35,21 +35,21 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(qbitsimp qbitsimp.cc ${sources} ${headers})
-target_link_libraries(qbitsimp ${Geant4_LIBRARIES})
+add_executable(shieldmodel shieldmodel.cc ${sources} ${headers})
+target_link_libraries(shieldmodel ${Geant4_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
-# build B1. This is so that we can run the executable directly because it
+# build SHIELDMODEL. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
-set(QBITSIMP_SCRIPTS
+set(SHIELDMODEL_SCRIPTS
   init_vis.mac
   cs137.mac
   vis.mac
   )
 
-foreach(_script ${QBITSIMP_SCRIPTS})
+foreach(_script ${SHIELDMODEL_SCRIPTS})
   configure_file(
     ${PROJECT_SOURCE_DIR}/${_script}
     ${PROJECT_BINARY_DIR}/${_script}
@@ -61,9 +61,9 @@ endforeach()
 # For internal Geant4 use - but has no effect if you build this
 # example standalone
 #
-add_custom_target(B1 DEPENDS qbitsimp)
+add_custom_target(SHIELDMODEL DEPENDS shieldmodel)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
-install(TARGETS qbitsimp DESTINATION bin)
+install(TARGETS shieldmodel DESTINATION bin)
