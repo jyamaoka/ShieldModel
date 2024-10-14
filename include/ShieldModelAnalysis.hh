@@ -1,3 +1,8 @@
+//
+//
+/// \file ShieldModelAnalysis.hh
+/// \brief Definition Analysis output
+
 #ifndef ShieldModelAnalysis_h
 #define ShieldModelAnalysis_h 1
 
