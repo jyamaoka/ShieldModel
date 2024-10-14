@@ -15,6 +15,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4VisAttributes.hh"
+#include "G4GenericMessenger.hh"
 #include "G4SystemOfUnits.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -336,6 +337,35 @@ G4VPhysicalVolume* ShieldModelDetectorConstruction::Construct()
   //always return the physical World
   //
   return physWorld;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void ShieldModelDetectorConstruction::SetNumShields(G4int num)
+{
+  fNumShields = num;
+    
+  // tell G4RunManager that we change the geometry
+  G4RunManager::GetRunManager()->GeometryHasBeenModified();
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void ShieldModelDetectorConstruction::DefineCommands()
+{
+  // Define /SM/shields command directory using generic messenger class
+  fMessenger = new G4GenericMessenger(this, 
+                                      "/SM/shields/", 
+                                      "Detector control");
+
+  // armAngle command
+  auto& armAngleCmd
+    = fMessenger->DeclareMethodWithUnit("armAngle","deg",
+                                &B5DetectorConstruction::SetArmAngle, 
+                                "Set rotation angle of the second arm.");
+  armAngleCmd.SetParameterName("angle", true);
+  armAngleCmd.SetRange("angle>=0. && angle<180.");
+  armAngleCmd.SetDefaultValue("30.");
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
