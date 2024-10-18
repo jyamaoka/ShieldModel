@@ -7,7 +7,7 @@
 #/gps/particle gamma
 #/gps/ene/mono 661.7 keV
 
-/gps/pos/centre 0. 0. -175. mm
+#/gps/pos/centre 0. 0. -175. mm
 /gps/ang/type iso
 #/gps/ang/mintheta 170 deg
 #/gps/ang/maxtheta 10 deg

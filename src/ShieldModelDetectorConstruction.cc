@@ -16,6 +16,8 @@
 #include "G4PVPlacement.hh"
 #include "G4VisAttributes.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4SubtractionSolid.hh"
+#include "G4Tubs.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -57,8 +59,8 @@ G4VPhysicalVolume* ShieldModelDetectorConstruction::Construct()
 
   // Dector Vol
   //
-  G4double csi_sizeXY   = 14*mm,
-           csi_sizeZ    = 25.4*mm;
+  G4double csi_sizeXY   = 2*mm, // 14
+           csi_sizeZ    = 2*mm; // 25.4
 
   G4Material* csi_mat = nist->FindOrBuildMaterial("G4_CESIUM_IODIDE"); //G4_CESIUM_IODIDE
  
@@ -99,7 +101,7 @@ G4VPhysicalVolume* ShieldModelDetectorConstruction::Construct()
   //  
   
   // AL 0
-  if (1){
+  if (0){
      G4ThreeVector pos0 = G4ThreeVector(0, 0, (0.*mm + localZero));
      
      G4Box* solidShape0 =    
@@ -124,7 +126,7 @@ G4VPhysicalVolume* ShieldModelDetectorConstruction::Construct()
   }
 
   // AL 1
-  if (1){
+  if (0){
      G4ThreeVector pos1 = G4ThreeVector(0, 0, (20.2*mm + localZero));
      
      G4Box* solidShape1 =    
@@ -149,7 +151,7 @@ G4VPhysicalVolume* ShieldModelDetectorConstruction::Construct()
   }
 
   // AL 2
-  if (1){
+  if (0){
      G4ThreeVector pos2 = G4ThreeVector(0, 0, (46.2*mm + localZero));
      
      G4Box* solidShape2 =    
@@ -174,7 +176,7 @@ G4VPhysicalVolume* ShieldModelDetectorConstruction::Construct()
   }
 
   // BRASS 0
-  if (1){
+  if (0){
      G4ThreeVector pos3 = G4ThreeVector(0, 0, (61.2*mm + localZero));
      
      G4Box* solidShape3 =    
@@ -302,14 +304,44 @@ G4VPhysicalVolume* ShieldModelDetectorConstruction::Construct()
                        0,                       //copy number
                        checkOverlaps);          //overlaps checking
   }
+
+
+  // Define dimensions
+  G4double outerRadius = 3.9 * cm; // 2.9 thickness
+  G4double innerCylinderOuterRadius = 1.0 * cm;
+  G4double length = 5.0 * cm;
+  G4double startAngle = 0.0 * deg;
+  G4double spanningAngle = 360.0 * deg;
+
+  if (1){ // cylinder
+
+     
+     // Create outer cylinder
+     G4Tubs* outerCylinder = new G4Tubs("OuterCylinder", 0.0 * cm, outerRadius, length / 2, startAngle, spanningAngle);
+     
+     // Create inner cylinder
+     G4Tubs* innerCylinder = new G4Tubs("InnerCylinder", 0.0 * cm, innerCylinderOuterRadius, length*1.1 / 2, startAngle, spanningAngle);
+     
+     // Subtract inner cylinder from outer cylinder
+     G4SubtractionSolid* hollowCylinder = new G4SubtractionSolid("HollowCylinder", outerCylinder, innerCylinder);
+     
+     // Create logical volume
+     G4LogicalVolume* logicHollowCylinder = new G4LogicalVolume(hollowCylinder, pb_mat, "HollowCylinder");
+     
+     // Place the volume in the world
+     new G4PVPlacement(0, G4ThreeVector(), logicHollowCylinder, "HollowCylinder", logicWorld, false, 0, checkOverlaps);
+  }
+
+
   // CsI Det
   //G4ThreeVector pos6 = G4ThreeVector( csi_sizeXY/2., 0, (20.0*cm + localZero));
-  G4ThreeVector pos6 = G4ThreeVector( 0, 0, (218*mm + localZero));
+  //G4ThreeVector pos6 = G4ThreeVector( 0, 0, (218*mm + localZero));
+  G4ThreeVector pos6 = G4ThreeVector( 0, outerRadius+(csi_sizeXY*10/2.)+1.0*cm, 0);
 
   G4Box* solidShape6 =    
     new G4Box("Csi", 
               csi_sizeXY/2.,
-              csi_sizeXY/2.,
+              csi_sizeXY*10/2.,
               csi_sizeZ/2.);
                       
   G4LogicalVolume* logicShape6 =                         
