@@ -1,5 +1,5 @@
-# G4 Shield Model
-Model of shielded CsI detector 
+# Shield Model
+Model of shielded CsI detector in geant4 
 
 
 ## Overview
